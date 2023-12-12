@@ -66,3 +66,44 @@ Stats& ShakerSort(std::vector<T>& vec) {
 }
 
 
+template <typename T>
+void Heapify(std::vector<T>& vec, int size, int i, Stats& statistics) {
+    int max = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    if (left < size) {
+        statistics.comparison_count++;
+        if (vec[left] > vec[max]) {
+            max = left;
+        }
+    }
+
+    if (right < size) {
+        statistics.comparison_count++;
+        if (vec[right] > vec[max]) {
+            max = right;
+        }
+    }
+
+    if (max != i) {
+        custom_swap(vec[i], vec[max]);
+        statistics.copy_count += 3;
+        Heapify(vec, size, max, statistics);
+    }
+}
+
+template <typename T>
+Stats& HeapSort(std::vector<T>& vec) {
+    Stats statistics;
+    int size = vec.size();
+    for (int i = size / 2 - 1; i >= 0; i--) {
+        Heapify(vec, size, i, statistics);
+    }
+
+    for (int i = size - 1; i >= 0; i--) {
+        custom_swap(vec[0], vec[i]);
+        statistics.copy_count += 3;
+        Heapify(vec, i, 0, statistics);
+    }
+    return statistics;
+}
