@@ -39,39 +39,8 @@ void custom_swap(T& obj1, T& obj2) {
     obj2 = copy;
 }
 
-//template <typename T>
-//Stats& ShakerSort(std::vector<T>& vec) {
-//    Stats statistics;
-//    size_t n = vec.size();
-//    bool swapped;
-//    do {
-//        swapped = false;
-//        for (size_t i = 0; i < n - 1; ++i) {
-//            statistics.comparison_count++;
-//            if (vec[i] > vec[i + 1]) {
-//                custom_swap(vec[i], vec[i + 1]);
-//                statistics.copy_count += 3;
-//                swapped = true;
-//            }
-//        }
-//        if (!swapped) break;
-//
-//        swapped = false;
-//        for (size_t i = n - 1; i > 0; --i) {
-//            statistics.comparison_count++;
-//            if (vec[i - 1] > vec[i]) {
-//                custom_swap(vec[i - 1], vec[i]);
-//                statistics.copy_count += 3;
-//                swapped = true;
-//            }
-//        }
-//    } while (swapped);
-//
-//    return statistics;
-//}
-
 template <typename T>
-Stats& ShakerSortMy(std::vector<T>& vec) {
+Stats& ShakerSort(std::vector<T>& vec) {
     Stats statistics;
     size_t n = vec.size();
     while (n > 0) {
@@ -95,3 +64,5 @@ Stats& ShakerSortMy(std::vector<T>& vec) {
     }
     return statistics;
 }
+
+
