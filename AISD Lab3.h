@@ -83,10 +83,12 @@ template <typename T>
 Stats& ShakerSort(std::vector<T>& arr) {
 	Stats s;
 	size_t n = arr.size();
+	size_t start = 0;
+	size_t end = n - 1;
 	bool swapped;
-	do {
+	while (n > 0) {
 		swapped = false;
-		for (size_t i = 0; i < n - 1; ++i) {
+		for (size_t i = start; i < end; ++i) {
 			s.comparison_count++;
 			if (arr[i] > arr[i + 1]) {
 				custom_swap(arr[i], arr[i + 1]);
@@ -94,18 +96,22 @@ Stats& ShakerSort(std::vector<T>& arr) {
 				swapped = true;
 			}
 		}
-		if (!swapped) break;
-
-		swapped = false;
-		for (size_t i = n - 1; i > 0; --i) {
+		if (swapped == false) break;
+		end--;
+		n--;
+		if (n <= 0) break;
+		for (size_t i = end; i > start; --i) {
 			s.comparison_count++;
-			if (arr[i - 1] > arr[i]) {
-				custom_swap(arr[i - 1], arr[i]);
+			if (arr[i] < arr[i - 1]) {
+				custom_swap(arr[i], arr[i - 1]);
 				s.copy_count += 3;
 				swapped = true;
 			}
 		}
-	} while (swapped);
+		start++;
+		n--;
+		if (swapped == false) break;
+	}
 
 	return s;
 }

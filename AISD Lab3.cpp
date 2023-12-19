@@ -16,6 +16,112 @@ using namespace std;
 int main()
 {
 	setlocale(LC_ALL, "Rus");
+
+	cout << "Сортировка СТРИНГОВЫХ векторов" << endl << endl;
+
+	vector<int> intvector1 = { 7,6,9,4,1,2,8,0,3 };
+	cout << "Вектор до сортировки: " << endl;
+	Print(intvector1);
+	Stats statisticsint = ShakerSort(intvector1);
+	cout << "Вектор после <<<шейкерной>>> сортировки " << endl;
+	Print(intvector1);
+
+
+
+
+	vector<string> stringvector1 = { "a", "f", "c" , "f", "a", "r" , "i", "e" };
+	vector<string> stringvector2 = { "i", "y", "t" , "x", "z", "r" , "q", "l", "s", "k" };
+	vector<string> stringvector3 = { "w", "t", "h" , "j", "a", "b" , "s", "e", "d", "m", "k", "a", "x", "q", "z" , "x", "b", "l" };
+
+	cout << "Вектор до сортировки:" << endl;
+	Print(stringvector1);
+	Stats statistics1 = InsertSort(stringvector1);
+	cout << "Вектор после сортировка <<<вставками>>> сортировки " << endl;
+	Print(stringvector1);
+	cout << "Кол-во сравнений: " << statistics1.comparison_count << endl;
+	cout << "Кол-во копий: " << statistics1.copy_count << endl << endl;
+
+	cout << "Вектор до сортировки: " << endl;
+	Print(stringvector2);
+	Stats statistics2 = ShakerSort(stringvector2);
+	cout << "Вектор после <<<шейкерной>>> сортировки " << endl;
+	Print(stringvector2);
+	cout << "Кол-во сравнений:  " << statistics2.comparison_count << endl;
+	cout << "Кол-во копий: " << statistics2.copy_count << endl << endl;
+
+	cout << "Вектор до сортировки: " << endl;
+	Print(stringvector3);
+	Stats statistics3 = HeapSort(stringvector3);
+	cout << "Вектор после <<<пирамидальной>>> сортировки" << endl;
+	Print(stringvector3);
+	cout << "Кол-во сравнений: " << statistics3.comparison_count << endl;
+	cout << "Кол-во копий: " << statistics3.copy_count << endl << endl;
+
+	cout << "Сортировка векторов СОБСТВЕННОГО КЛАССА" << endl << endl;
+
+	vector<ComparisonClass> v1;
+	vector<ComparisonClass> v2;
+	vector<ComparisonClass> v3;
+
+	srand(static_cast<unsigned int>(time(0)));
+	for (size_t i = 0; i < 15; ++i) {
+		v1.push_back(rand() % 100);
+	}
+
+	srand(static_cast<unsigned int>(time(0)));
+	for (size_t i = 0; i < 15; ++i) {
+		v2.push_back(rand() % 100);
+	}
+
+	srand(static_cast<unsigned int>(time(0)));
+	for (size_t i = 0; i < 15; ++i) {
+		v3.push_back(rand() % 100);
+	}
+
+	cout << "Сортировка <<<вставками>>>" << endl << endl;
+
+	cout << "Вектор ДО сортировки: " << endl << endl;
+	for (const auto& obj : v1) {
+		cout << obj.get_value() << " ";
+	}
+	Stats statistics4 = InsertSort(v1);
+	cout << endl;
+	cout << "Вектор ПОСЛЕ сортировки: " << endl << endl;
+	for (const auto& obj : v1) {
+		cout << obj.get_value() << " ";
+	}
+	cout << endl;
+	cout << endl;
+
+	cout << "Сортировка <<<шейкерная>>>" << endl << endl;
+
+	cout << "Вектор ДО сортировки: " << endl << endl;
+	for (const auto& obj : v2) {
+		cout << obj.get_value() << " ";
+	}
+	Stats statistics5 = ShakerSort(v2);
+	cout << endl;
+	cout << "Вектор ПОСЛЕ сортировки: " << endl << endl;
+	for (const auto& obj : v2) {
+		cout << obj.get_value() << " ";
+	}
+	cout << endl;
+	cout << endl;
+
+	cout << "Сортировка <<<пирамидальная>>>" << endl << endl;
+
+	cout << "Вектор ДО сортировки: " << endl << endl;
+	for (const auto& obj : v3) {
+		cout << obj.get_value() << " ";
+	}
+	Stats statistics6 = HeapSort(v3);
+	cout << endl;
+	cout << "Вектор ПОСЛЕ сортировки: " << endl << endl;
+	for (const auto& obj : v3) {
+		cout << obj.get_value() << " ";
+	}
+	cout << endl;
+
 	const int num_vectors = 100;
 	const vector<size_t> vector_lengths = { 1000, 2000, 3000 , 4000, 5000, 6000, 7000, 8000, 9000, 10000, 25000, 50000, 100000 };
 
@@ -24,6 +130,7 @@ int main()
 	if (outputFile.is_open()) {
 		outputFile.close();
 	}
+
 
 	for (size_t length : vector_lengths) {
 		Stats InsertSort_random{ 0, 0 };
@@ -112,48 +219,6 @@ int main()
 
 		cout << "Текущая длина вектора: " << length << endl << endl;
 
-		/*cout << "---сортировка вставками---:" << endl << endl;
-
-		cout << "Статистика для РАНДОМНОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << InsertSort_random_average_stats.comparison_count << endl;
-		cout << "   Кол-во копий: " << InsertSort_random_average_stats.copy_count << endl << endl;
-
-		cout << "Статистика для ОТСОРТИРОВАННОГО ВЕКТОРА:" << endl;
-		cout << "   Количество сравнений: " << InsertSort_sorted.comparison_count << endl;
-		cout << "   Кол-вл копий: " << InsertSort_sorted.copy_count << endl << endl;
-
-		cout << "Статистика для ОБРАТНОГО ОТСОРТИРОВАННОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << InsertSort_reverse.comparison_count << endl;
-		cout << "   Кол-во копий: " << InsertSort_reverse.copy_count << endl << endl;
-
-		cout << "---шейкерная сортировка---:" << endl << endl;
-
-		cout << "Статистика для РАНДОМНОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << shaker_random_average_stats.comparison_count << endl;
-		cout << "   Кол-во копий: " << shaker_random_average_stats.copy_count << endl << endl;
-
-		cout << "Статистика для ОТСОРТИРОВАННОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << shaker_sorted.comparison_count << endl;
-		cout << "   Кол-во копий: " << shaker_sorted.copy_count << endl << endl;
-
-		cout << "Статистика для ОБРАТНОГО ОТСОРТИРОВАННОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << shaker_reverse.comparison_count << endl;
-		cout << "   Кол-во копий: " << shaker_reverse.copy_count << endl << endl;
-
-		cout << "---пирамидальная сортировка---:" << endl << endl;
-
-		cout << "Статистика для РАНДОМНОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << HeapSort_random_average_stats.comparison_count << endl;
-		cout << "   Кол-во копий: " << HeapSort_random_average_stats.copy_count << endl << endl;
-
-		cout << "Статистика для ОТСОРТИРОВАННОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << HeapSort_sorted.comparison_count << endl;
-		cout << "   Кол-во копий: " << HeapSort_sorted.copy_count << endl << endl;
-
-		cout << "Статистика для ОБРАТНОГО ОТСОРТИРОВАННОГО ВЕКТОРА:" << endl;
-		cout << "   Кол-во сравнений: " << HeapSort_reverse.comparison_count << endl;
-		cout << "   Кол-во копий: " << HeapSort_reverse.copy_count << endl << endl;*/
-
 		std::ofstream outputFile("example.txt", std::ios::app);
 		// Проверяем, успешно ли открыт файл
 		if (outputFile.is_open()) {
@@ -213,100 +278,7 @@ int main()
 		}
 
 
-		cout << "Сортировка СТРИНГОВЫХ векторов" << endl << endl;
-
-		vector<string> stringvector1 = { "a", "f", "c" , "f", "a", "r" , "i", "e" };
-		vector<string> stringvector2 = { "i", "y", "t" , "x", "z", "r" , "q", "l", "s", "k" };
-		vector<string> stringvector3 = { "w", "t", "h" , "j", "a", "b" , "s", "e", "d", "m", "k", "a", "x", "q", "z" , "x", "b", "l" };
-
-		cout << "Вектор до сортировки:" << endl;
-		Print(stringvector1);
-		Stats statistics1 = InsertSort(stringvector1);
-		cout << "Вектор после сортировка <<<вставками>>> сортировки " << endl;
-		Print(stringvector1);
-		cout << "Кол-во сравнений: " << statistics1.comparison_count << endl;
-		cout << "Кол-во копий: " << statistics1.copy_count << endl << endl;
-
-		cout << "Вектор до сортировки: " << endl;
-		Print(stringvector2);
-		Stats statistics2 = ShakerSort(stringvector2);
-		cout << "Вектор после <<<шейкерной>>> сортировки " << endl;
-		Print(stringvector2);
-		cout << "Кол-во сравнений:  " << statistics2.comparison_count << endl;
-		cout << "Кол-во копий: " << statistics2.copy_count << endl << endl;
-
-		cout << "Вектор до сортировки: " << endl;
-		Print(stringvector3);
-		Stats statistics3 = HeapSort(stringvector3);
-		cout << "Вектор после <<<пирамидальной>>> сортировки" << endl;
-		Print(stringvector3);
-		cout << "Кол-во сравнений: " << statistics3.comparison_count << endl;
-		cout << "Кол-во копий: " << statistics3.copy_count << endl << endl;
-
-		cout << "Сортировка векторов СОБСТВЕННОГО КЛАССА" << endl << endl;
-
-		vector<ComparisonClass> v1;
-		vector<ComparisonClass> v2;
-		vector<ComparisonClass> v3;
-
-		srand(static_cast<unsigned int>(time(0)));
-		for (size_t i = 0; i < 15; ++i) {
-			v1.push_back(rand() % 100);
-		}
-
-		srand(static_cast<unsigned int>(time(0)));
-		for (size_t i = 0; i < 15; ++i) {
-			v2.push_back(rand() % 100);
-		}
-
-		srand(static_cast<unsigned int>(time(0)));
-		for (size_t i = 0; i < 15; ++i) {
-			v3.push_back(rand() % 100);
-		}
-
-		cout << "Сортировка <<<вставками>>>" << endl << endl;
-
-		cout << "Вектор ДО сортировки: " << endl << endl;
-		for (const auto& obj : v1) {
-			cout << obj.get_value() << " ";
-		}
-		Stats statistics4 = InsertSort(v1);
-		cout << endl;
-		cout << "Вектор ПОСЛЕ сортировки: " << endl << endl;
-		for (const auto& obj : v1) {
-			cout << obj.get_value() << " ";
-		}
-		cout << endl;
-		cout << endl;
-
-		cout << "Сортировка <<<шейкерная>>>" << endl << endl;
-
-		cout << "Вектор ДО сортировки: " << endl << endl;
-		for (const auto& obj : v2) {
-			cout << obj.get_value() << " ";
-		}
-		Stats statistics5 = ShakerSort(v2);
-		cout << endl;
-		cout << "Вектор ПОСЛЕ сортировки: " << endl << endl;
-		for (const auto& obj : v2) {
-			cout << obj.get_value() << " ";
-		}
-		cout << endl;
-		cout << endl;
-
-		cout << "Сортировка <<<пирамидальная>>>" << endl << endl;
-
-		cout << "Вектор ДО сортировки: " << endl << endl;
-		for (const auto& obj : v3) {
-			cout << obj.get_value() << " ";
-		}
-		Stats statistics6 = HeapSort(v3);
-		cout << endl;
-		cout << "Вектор ПОСЛЕ сортировки: " << endl << endl;
-		for (const auto& obj : v3) {
-			cout << obj.get_value() << " ";
-		}
-		cout << endl;
+		
 	}
 	return 0;
 }
